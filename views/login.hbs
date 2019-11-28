@@ -1,0 +1,28 @@
+{{!-- ---Create New Account Part--- --}}
+<div>
+    <a class="create-button" href="/login/createAcc">Create Account</a></button>
+</div>
+{{!-- ---Main Login Form--- --}}
+<div class="login-main">
+    <h2 class="login-title">{{title}}</h2>
+    <form method="POST">
+        <div>
+            <p class="login-label" for="id">Email</p>
+            <input class="login-input" type="text" id="id" name="id" maxlength="100" />
+        </div>
+        <div>
+            <p class="login-label" for="password">Password</p>
+            <input class="login-input" type="password" id="password" name="password" />
+        </div>
+        {{#if message}}
+        <div class="login-message">
+            {{message}}
+        </div>
+        {{/if}}
+        <div>
+            <button class="login-button" id="submit" name="button" type="submit" value="submit">{{title}}</button>
+            <br>
+            <a class="login-forget" href="/login/reset">Forgot password...</a>
+        </div>
+    </form>
+</div>

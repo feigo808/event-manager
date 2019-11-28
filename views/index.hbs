@@ -1,0 +1,20 @@
+<h2 id="currentTime"></h2>
+<script> document.getElementById('currentTime').innerHTML = 'Today is: {{year}} -{{month}} -' + new Date().getDate() + '　' + new Date().toLocaleString('en-us', { weekday: 'long' })</script>
+
+<div class="calendar-buttons">
+    <a class="prev-button" href="/?y={{prevYear}}&m={{prevMonth}}">&lt;</a>
+    <span>{{year}}　ー　{{month}}</span>
+    <a class="next-button" href="/?y={{nextYear}}&m={{nextMonth}}">&gt;</a>
+</div>
+<br><br>
+<div class="calendar-container">
+    {{#each dayHeaders}}
+    <div class="calendar-item calendar-header {{#if this.weekend}}weekend{{/if}}">{{this.name}}</div>
+    {{/each}}
+    {{#each days}}
+    <div class="calendar-item {{#if this.isCurrentMonth}}current{{/if}}">
+        <div>{{this.day}}</div>
+        <div>{{#if this.available}} <a href="/events?d={{this.date}}">〇</a> {{/if}}</div>
+    </div>
+    {{/each}}
+</div>

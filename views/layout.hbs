@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  {{!-- The width=device-width part sets the width of the page to follow the screen-width of the device (which will vary
+  depending on the device).
+  The initial-scale=1.0 part sets the initial zoom level when the page is first loaded by the browser. --}}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{!-- allows web authors to choose what version of Internet Explorer the page should be rendered as --}}
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  {{!-- <script src="/js/utils.js"></script> --}}
+</head>
+
+<body>
+  <header class="app_header">
+    <h1 class="header">Party Schedule</h1>
+    <div class="username">
+      {{!-- Get from the locals --}}
+      {{#if user}}
+      {{user.name}}
+      <a href="/login/logout">Logout</a>
+      {{/if}}
+    </div>
+  </header>
+
+  <div class="main">
+    {{{body}}}
+  </div>
+
+  <footer>
+    &copy;feigo808_2019
+  </footer>
+</body>
+
+</html>

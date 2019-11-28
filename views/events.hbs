@@ -1,0 +1,21 @@
+{{!-- Page Header Part --}}
+<div class="">
+    <h3 class=""><a href="/">Home</a>　　　　This is the Schedule For : {{fullDate}} </h3>
+</div>
+
+<div class="detail-container">
+    {{#each times}}
+    {{!-- Detail Time Header --}}
+    <div class="detail-header">
+        {{this.label}}
+    </div>
+    {{/each}}
+    {{#each times}}
+    {{!-- Detail Schedule Part --}}
+    <div>
+        <div data-id="{{this.eventId}}" data-start="{{this.from}}" data-end="{{this.to}}" data-booked="{{this.booked}}"
+            class="detail-item {{#if this.available}}available{{/if}} {{#if this.booked}}booked{{/if}}">
+        </div>
+    </div>
+    {{/each}}
+</div>

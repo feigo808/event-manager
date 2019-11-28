@@ -1,0 +1,232 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+   background-color: beige;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/* ---Share Part Layout--- */
+.app_header{
+  margin: 10px 0px;
+  grid-template-columns: 8fr 4fr;
+}
+
+.header{
+  text-align: left;
+  font-weight: bolder;
+  color: #2bac92;
+}
+
+.username {
+  font-size: 18px;
+  float: right;
+  color: #0e6352;
+  font-weight: bold;
+}
+
+/* ---Login Page--- */
+.login-main {
+    background-color: #FFFFFF;
+    width: 400px;
+    height: 400px;
+    margin: 1em auto;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.login-title {
+    padding-top: 30px;
+    color: #1abc9c;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 23px;
+    margin-left: 40%;
+    padding-bottom: 10px;
+}
+
+.login-label{
+margin-left: 60px;
+font-weight: 550;
+}
+
+.login-input {
+width: 76%;
+color: rgb(38, 50, 56);
+font-weight: 700;
+font-size: 15px;
+letter-spacing: 1px;
+background: rgba(136, 126, 126, 0.04);
+padding: 10px 20px;
+border: none;
+border-radius: 20px;
+outline: none;
+box-sizing: border-box;
+border: 2px solid rgba(0, 0, 0, 0.02);
+margin-left: 46px;
+text-align: center;
+font-family: 'Ubuntu', sans-serif;
+margin-bottom: 20px;
+}
+
+.login-input:focus{
+    border: 2px solid rgba(0, 0, 0, 0.18) !important;   
+}
+
+.login-message{
+  color: #d02718;
+  text-align: center;
+  background-color: #fce4e4;
+  border: 1px solid #fcc2c3;
+  padding: 20px 30px;
+  font-weight: bold;
+}
+
+.login-button {
+  cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    background: linear-gradient(to right, #087551, #2bac92);
+    border: 0;
+    padding: 10px 40px;
+    font-family: 'Ubuntu', sans-serif;
+    margin-left: 35%;
+    font-size: 14px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.login-forget {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #1abc9c;
+    padding-top: 15px;
+    margin-left: 50px;
+}
+
+.forget-button {
+    cursor: pointer;
+    border-radius: 8em;
+    color: #fff;    
+    background: linear-gradient(to right, #087551, #2bac92);
+    padding: 10px 40px;
+    font-family: 'Ubuntu', sans-serif;
+    margin-left: 70px;
+    font-size: 15px;
+    margin-top: 60px;
+    margin-bottom: 40px;
+}
+
+.create-button{
+float: right;
+margin: 0 180px;
+font-size: large;
+font-weight: bold;
+padding: 10px 20px;
+color: #087551;
+}
+
+/* ---Home Page Calendar Title--- */
+.calendar-buttons{
+  padding: 2px;
+  background: #1abc9c;
+  color: white;
+  font-size: 35px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+.prev-button{
+  color: white;
+  float: left;
+  margin-left: 25px;
+  text-decoration: none;  /*no link*/
+}
+
+.next-button{
+  color: white;
+  float: right;
+  margin-left: 25px;
+  text-decoration: none;  /*no link*/
+}
+
+/* ---Home Page Calendar Part--- */
+.calendar-container {
+  display: grid;
+  grid-gap: 1px;
+  border: 2px solid rgb(0, 153, 255);
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 12vh;
+  background-color: lightblue;
+  font-size: 26px;
+}
+
+.calendar-item {
+  background-color: gray;
+  color: darkslategrey;
+  text-align: center;
+  border: 1px solid #1abc9c;
+}
+
+.calendar-item.calendar-header {
+  background-color: darkseagreen;
+  color: darkslategrey;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+.calendar-item.weekend{
+  color: tomato;
+}
+
+.calendar-item.current{
+  background-color: white;
+}
+
+/* 〇 */
+.calendar-item a{
+text-decoration: none;
+font-size: 32px;
+}
+
+/* ---Event Detail Page--- */
+.detail-container{
+  display: grid;
+  padding: 1px;
+  grid-template-columns: repeat(30, 1fr);
+  background-color: blue;
+  font-size: 15px;
+  grid-gap: 1px;
+}
+
+.detail-header {
+  background-color: aliceblue;
+  color: darkslategrey;
+  font-weight: bold;
+  text-align: center;
+}
+
+.detail-item {
+  background-color: grey;
+  font-weight: bold;
+  text-align: center;
+  height: 50px;
+  color: darkslategrey;
+}
+
+.detail-item.available{
+  background-color: greenyellow;
+}
+
+.detail-item.booked{
+  background-color: blueviolet;
+  background-image: url('../images/party.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 80% 90%;
+}
+
+
