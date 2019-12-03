@@ -19,3 +19,62 @@
     </div>
     {{/each}}
 </div>
+
+<br />
+<br />
+
+{{!-- Detail Form Part --}}
+<div id="divForm" class="form" style="display: none">
+    <form id="eventForm" method="POST" action="">
+        {{!-- start time --}}
+        <div class="field">
+            <label for="startTime">Start</label>
+            <select name="startTime" id="startTime">
+                {{#each timesForSelect}}
+                <option value="{{this.startTime}}">{{this.startTime}}</option>
+                {{/each}}
+            </select>
+        </div>
+        {{!-- end time --}}
+        <div class="field">
+            <label for="endTime">End</label>
+            <select name="endTime" id="endTime">
+                {{#each timesForSelect}}
+                <option value="{{this.endTime}}">{{this.endTime}}</option>
+                {{/each}}
+            </select>
+        </div>
+        {{!-- activity --}}
+        <div class="field">
+            <label for="activity" style="vertical-align: top;">Activity</label>
+            <input name="activity" id="activity"></textarea>
+        </div>
+        {{!-- location --}}
+        <div class="field">
+            <label for="location" style="vertical-align: top;">Location</label>
+            <input name="location" id="location"></textarea>
+        </div>
+        {{!-- note --}}
+        <div class="field">
+            <label for="note" style="vertical-align: top;">Note</label>
+            <textarea name="note" id="note" rows="2"></textarea>
+        </div>
+        {{!-- buttons --}}
+        <div>
+            <button class="button" id="saveButton" name="save" type="submit" value="save">SAVE</button>
+            <button class="btnDelete" id="deleteButton" name="delete" type="button" value="delete"
+                style="display: none">DELETE</button>
+            <button class="button" id="closeButton" name="close" type="button" value="close">CLOSE</button>
+        </div>
+        {{!-- loading mark --}}
+        {{!-- <div id="loading" class="loading">
+            <div>
+                <!-- Loading image was created using https://loading.io/ -->
+                <img src="/images/loading.svg" alt="Loading..." />
+            </div>
+        </div> --}}
+    </form>
+</div>
+
+{{!-- script is not here --}}
+<script src="/js/events.js" type='text/javascript'></script>

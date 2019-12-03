@@ -17,6 +17,7 @@
     "luxon": "^1.21.2",
     "morgan": "~1.9.1",
     "mysql2": "^2.0.1",
+    "notiflix": "^1.9.1",
     "sequelize": "^5.21.2"
   },
   "devDependencies": {

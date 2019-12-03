@@ -53,17 +53,21 @@ router.get('/', auth, async function (req, res, next) {
         // 整点
         const clock = {
             // Display label
-            label: i,
-            id: 0,
-            time: date.plus({ hours: i }).toFormat('HH:mm'),
+            label: '' + i,
+            startTime: date.plus({ hours: i }).toFormat('HH:mm'),
+            endTime: date.plus({ hours: i, minutes: 30 }).toFormat('HH:mm'),
+            available: false,
+            eventId: 0,
         };
         times.push(clock);
 
         // 半点
         const half = {
-            labe: '',
-            id: 0,
-            time: date.plus({ hours: i, minutes: 30 }).toFormat('HH:mm'),
+            label: '',
+            startTime: date.plus({ hours: i, minutes: 30 }).toFormat('HH:mm'),
+            endTime: date.plus({ hours: i + 1 }).toFormat('HH:mm'),
+            available: false,
+            eventId: 0,
         };
         times.push(half);
     };
@@ -86,13 +90,22 @@ router.get('/', auth, async function (req, res, next) {
 
         // Separate every event of that day
         for (const i of dayEvents) {
-            console.log(JSON.stringify(i));
+            // console.log(JSON.stringify(i));
             const timeFrom = DateTime.fromSQL(i.startTime).toFormat('HH:mm');
             const timeTo = DateTime.fromSQL(i.endTime).toFormat('HH:mm');
 
+            // const filteredTimes = times.filter(
+            //     t => t.startTime >= timeFrom && t.endTime <= timeTo
+            // );
+            // for (const t of filteredTimes) {
+            //     t.available = i.available;
+            //     t.eventId = i.id;
+            //     t.booked = !i.available;
+            // }
+
             // Update info for every event
             times.filter(
-                t => t.time >= timeFrom && t.time <= timeTo
+                t => t.startTime >= timeFrom && t.endTime <= timeTo
             ).forEach(t => {
                 t.available = i.available;
                 t.booked = !i.available;
@@ -103,7 +116,7 @@ router.get('/', auth, async function (req, res, next) {
         }
 
         // Only avail select time will be showed in pulldown list
-        const timesForSelect = times.filter(t => t.id !== 0);
+        const timesForSelect = times.filter(t => t.eventId !== 0);
         // Which day has been selected
         const fullDate = date.toLocaleString({ weekday: 'long', month: 'long', day: '2-digit' });
 
