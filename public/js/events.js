@@ -6,17 +6,18 @@ function init() {
     let _event = {};
 
     // Get all items from the form by their id
-    const divForm = document.getElementById('divForm');
-    const selStartTime = document.getElementById('startTime');
-    const selEndTime = document.getElementById('endTime');
-    const txtActivity = document.getElementById('activity');
-    const txtLocation = document.getElementById('location');
-    const txtNote = document.getElementById('note');
-    const loading = document.getElementById('loading');
-    const btnDelete = document.getElementById('deleteButton');
-    const btnClose = document.getElementById('closeButton');
-    const btnSave = document.getElementById('saveButton');
-    const hiddenDate = document.getElementById('hiddenDate');
+    // $idはutils.jsファイルに定義してある、またそのファイルを呼び込む設定はlayoutのscript tagで指定してます
+    const divForm = $id('divForm');
+    const selStartTime = $id('startTime');
+    const selEndTime = $id('endTime');
+    const txtActivity = $id('activity');
+    const txtLocation = $id('location');
+    const txtNote = $id('note');
+    const loading = $id('loading');
+    const btnDelete = $id('deleteButton');
+    const btnClose = $id('closeButton');
+    const btnSave = $id('saveButton');
+    const hiddenDate = $id('hiddenDate');
 
     // Buuton Events
     divForm.addEventListener('submit', submitForm);
@@ -68,19 +69,71 @@ function init() {
 
     }
 
-    function submitForm(e) {
 
+
+
+
+
+
+    //#region =============== Button Pressed ==============
+    // Save event (New or Update)
+    function submitForm(e) {
+        // validate before saving
+        if (validate()) {
+            saveEvent();
+        }
     }
 
+    // Delete existing event
     function deleteEvent(e) {
+        // eslint-disable-next-line no-undef
+        Notiflix.Confirm.Show(
+            'Confirm Delete',
+            'Are you sure to delete the event?',
+            'DELETE',
+            'Cancel',
 
+            // ok button callback
+            function () {
+                showLoading();
+
+                const url = `/events/${_event.id}`;
+                return fetch(url, {
+                    method: 'DELETE',
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result !== 'ok') {
+                            throw new Error(data.message || data);
+                        }
+                        // window.location.reload() reloads the current page with POST data, 
+                        // while window.location.href = window.location.href does not include the POST data.
+                        window.location.href = window.location.href + '';
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        hideLoading();
+                        // alert(err.message);
+                        // eslint-disable-next-line no-undef
+                        Notiflix.Report.Failure('Error', err.message);
+                    });
+            },
+
+            // cancel button callback
+            function () {
+                console.log('Delete canceled.');
+            }
+        );
     }
 
     // Hide the Form
     function closeForm(e) {
         divForm.style.display = 'none';
     }
+    //#endregion
 
+
+    //#region ====================== Utils =====================
     // Show Loading mark 
     function showLoading() {
         loading.style.display = 'grid';
@@ -92,11 +145,17 @@ function init() {
         loading.style.display = 'none';
     }
 
+    function getTimeStr(d) {
+        return d.split(' ')[1].substr(0, 5);
+    }
+    //#endregion
+
+
+    //#region ==================== Functions ======================
     // Get event info by eventId
     function fetchEvent(id) {
-        // *This is GET method
         const url = `/events?id=${id}`;
-
+        //method書いてない時は、デフォルトでGET methodになる￥
         return fetch(url)
             .then(res => {
                 return res.json();
@@ -126,12 +185,70 @@ function init() {
         btnDelete.style.display = _event.id ? 'inline' : 'none';
     }
 
-    function getTimeStr(d) {
-        return d.split(' ')[1].substr(0, 5);
+    // Save the event to DB
+    function saveEvent() {
+        showLoading();
+
+        const url = `/events/${_event.id}`;
+        const body = JSON.stringify(_event);
+
+        // ここではちゃんとmethodをPOSTに指定した
+        return fetch(url, {
+            method: 'POST',
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body,
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.id) {
+                    alert('kokokokokokokokokokokok');
+                    _event = data;
+                    console.log('event = ', _event);
+                } else {
+                    throw new Error(data.message || data);
+                }
+                window.location.href = window.location.href + '';
+            })
+            .catch(err => {
+                console.error(err);
+                hideLoading();
+                // alert(err.message);
+                // eslint-disable-next-line no-undef
+                Notiflix.Report.Failure('Error', err.message);
+            });
     }
+
+    // Validate Form info
+    function validate() {
+        const date = hiddenDate.value;
+
+        // _event.startTime = `${date} ${selStartTime.value}`;
+        _event.startTime = `${date} ${selStartTime.value}`;
+        _event.endTime = `${date} ${selEndTime.value}`;
+        // _event.endTime = `${date} ${selEndTime.value}`;
+        _event.activity = txtActivity.value;
+        _event.location = txtLocation.value;
+        _event.note = txtNote.value;
+
+        const errors = [];
+
+        // Client側でvalidateしたい場合、ここに書く
+        // Modelにもうvalidateしたが、やっぱここでもう一度したほうが無難
+
+        if (errors.length) {
+            const msg = errors.join(', ');
+            // alert(msg);
+            // eslint-disable-next-line no-undef
+            Notiflix.Report.Failure('Error', msg);
+            return false;
+        }
+        return true;
+    }
+    //#endregion
 }
 
 window.addEventListener('DOMContentLoaded', init);
+
 // eslint-disable-next-line no-undef
 Notiflix.Notify.Init();
 // eslint-disable-next-line no-undef

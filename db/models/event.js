@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             id: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                autoIncrement: true,
                 primaryKey: true,
             },
             startTime: {
@@ -68,7 +68,54 @@ module.exports = (sequelize, DataTypes) => {
             timestamps: false,
             // Validations for all table columns
             validate: {
+                startTimeAndEndTime() {
+                    if (this.startTime >= this.endTime) {
+                        throw new Error('Start time must be earlier than End time.');
+                    }
+                }, overwrappedTime(next) {
+                    (async event => {
+                        const { id, startTime, endTime, available } = event;
+                        const overwrapped = await Event.findAll({
+                            where: {
+                                // Replace 'lt' to 'lte' and 'gt' to 'gte' if you need to disallow adjacent events.
+                                startTime: { [Op.lt]: endTime },
+                                endTime: { [Op.gt]: startTime },
+                                available: { [Op.eq]: available },
+                                id: { [Op.ne]: id },
+                            },
+                        });
 
+                        if (overwrapped.length > 0) {
+                            next('Overwrapped events already exist.');
+                            return;
+                        }
+                        next();
+                    })(this);
+                },
+                availableBlock(next) {
+                    if (this.available == true) {
+                        next();
+                        return;
+                    }
+
+                    (async event => {
+                        const { id, startTime, endTime, available } = event;
+                        const availableBlock = await Event.findAll({
+                            where: {
+                                startTime: { [Op.lte]: startTime },
+                                endTime: { [Op.gte]: endTime },
+                                available: { [Op.eq]: true },
+                                id: { [Op.ne]: id },
+                            },
+                        });
+
+                        if (availableBlock.length === 0) {
+                            next('Specified time range is not available.');
+                            return;
+                        }
+                        next();
+                    })(this);
+                },
             },
         }
     );

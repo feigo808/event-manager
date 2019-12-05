@@ -114,4 +114,63 @@ router.get('/', auth, async function (req, res, next) {
 });
 //#endregion
 
+//#region  ---POST event data ---
+router.post('/:id', auth, async (req, res) => {
+    // event detail
+    const _event = req.body;
+    _event.id = req.params['id'] | 0;
+
+    try {
+        // このように書けば、saveDataに全ての項目が含まれてる
+        let saveData = db.Event.build({ available: false });
+        // If it's update
+        if (_event.id) {
+            // Find the data first
+            saveData = await db.Event.findByPk(_event.id);
+            // Not exist
+            if (!saveData) {
+                res.status(404).json({ result: 'error', message: 'Not found' });
+                return;
+            }
+        }
+        // Save all the infos from the Form
+        saveData.startTime = _event.startTime;
+        saveData.endTime = _event.endTime;
+        saveData.activity = _event.activity;
+        saveData.location = _event.location;
+        saveData.note = _event.note;
+
+        // id のみ取得
+        const { id } = await saveData.save();
+        const rtnEvent = await db.Event.findByPk(id);
+        res.json(rtnEvent);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ result: 'error', message: error.message });
+        return;
+    }
+});
+//#endregion
+
+//#region 
+router.delete('/:id', auth, async (req, res) => {
+    const id = req.params['id'] | 0;
+    const existing = await db.Event.findByPk(id);
+    if (!existing) {
+        res.status(404).json({ result: 'error', message: 'Not found' });
+        return;
+    }
+
+    try {
+        // Destory means delete
+        existing.destroy();
+        res.json({ result: 'ok' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ result: 'error', message: error.message });
+        return;
+    }
+});
+//#endregion
+
 module.exports = router;

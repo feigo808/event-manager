@@ -321,6 +321,33 @@ font-size: 32px;
 	top:1px;
 }
 
+.btnClose {
+  margin: 35px;
+  margin-left: 50px;
+	box-shadow:0px 10px 14px -7px  #1abc9c;
+	background:linear-gradient(to bottom, #098551 5%, #0e6352 100%);
+	background-color:#098551;
+	border-radius:6px;
+	border:1px solid #025a2e;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #024121;
+}
+.btnClose:hover {
+	background:linear-gradient(to bottom, #0e6352 5%, #0a774a 100%);
+	background-color:#0e6352;
+}
+.btnClose:active {
+	position:relative;
+	top:1px;
+}
+
 .loading {
   position: absolute;
   top: 0;
