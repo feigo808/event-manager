@@ -69,15 +69,11 @@ function init() {
 
     }
 
-
-
-
-
-
-
     //#region =============== Button Pressed ==============
     // Save event (New or Update)
     function submitForm(e) {
+        // 要確認
+        e.preventDefault();
         // validate before saving
         if (validate()) {
             saveEvent();
@@ -201,7 +197,6 @@ function init() {
             .then(res => res.json())
             .then(data => {
                 if (data.id) {
-                    alert('kokokokokokokokokokokok');
                     _event = data;
                     console.log('event = ', _event);
                 } else {
